@@ -14,36 +14,61 @@
 		<title>Chatify App</title>
 	</head>
 	<body>
-		<div class="join-container">
-			<header class="join-header">
-				<h1><i class="fas fa-smile"></i> Chatify</h1>
-			</header>
-			<main class="join-main">
-				<form action="chat.html">
-					<div class="form-control">
-						<label for="username">Username</label>
-						<input
+		<div class="main-container">
+
+			<div class="join-container">
+				<header class="join-header">
+					<h1><i class="fas fa-smile"></i> Create a room</h1>
+				</header>
+				<main class="join-main">
+					<form action="chat.html">
+						<div class="form-control">
+							<label for="username">Username</label>
+							<input
+								type="text"
+								name="username"
+								id="username"
+								placeholder="Enter username..."
+								required
+							/>
+						</div>
+						<button type="submit" class="btn">Create Chat</button>
+					</form>
+				</main>
+			</div>
+
+			<div class="join-container">
+				<header class="join-header">
+					<h1><i class="fas fa-smile"></i> Join a room</h1>
+				</header>
+				<main class="join-main">
+					<form action="chat.html">
+						<div class="form-control">
+							<label for="username">Username</label>
+							<input
+								type="text"
+								name="username"
+								id="username"
+								placeholder="Enter username..."
+								required
+							/>
+						</div>
+						<div class="form-control">
+							<label for="room">Room</label>
+							<input
 							type="text"
-							name="username"
-							id="username"
-							placeholder="Enter username..."
+							name="roomId"
+							id="roomId"
+							placeholder="Enter room url..."
 							required
 						/>
-					</div>
-					<div class="form-control">
-						<label for="room">Room</label>
-						<select name="room" id="room">
-							<option value="JavaScript">JavaScript</option>
-							<option value="Python">Python</option>
-							<option value="PHP">PHP</option>
-							<option value="C#">C#</option>
-							<option value="Ruby">Ruby</option>
-							<option value="Java">Java</option>
-						</select>
-					</div>
-					<button type="submit" class="btn">Join Chat</button>
-				</form>
-			</main>
+							
+						</div>
+						<button type="submit" class="btn">Join Chat</button>
+					</form>
+				</main>
+			</div>
+
 		</div>
 	</body>
 </html>

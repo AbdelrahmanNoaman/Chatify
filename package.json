@@ -1,0 +1,28 @@
+{
+  "name": "chatify",
+  "version": "1.0.0",
+  "description": "Realtime chat app with rooms",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdelrahmanNoaman/Chatify.git"
+  },
+  "author": "Abdelrahman Noaman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AbdelrahmanNoaman/Chatify/issues"
+  },
+  "homepage": "https://github.com/AbdelrahmanNoaman/Chatify#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "moment": "^2.29.4",
+    "nodemon": "^3.0.1",
+    "path": "^0.12.7",
+    "socket.io": "^4.7.1"
+  }
+}

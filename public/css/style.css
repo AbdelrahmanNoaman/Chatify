@@ -129,8 +129,8 @@ a {
 
 /* Join Page */
 .join-container {
-  max-width: 500px;
-  margin: 80px auto;
+  width: 27%;
+  margin: 40px auto;
   color: #fff;
 }
 
@@ -177,6 +177,13 @@ a {
 .join-main .btn {
   margin-top: 20px;
   width: 100%;
+}
+
+.main-container{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
 }
 
 @media (max-width: 700px) {
