@@ -20,10 +20,42 @@
       </header>
       <main class="chat-main">
         <div class="chat-sidebar">
+          
           <h3><i class="fas fa-comments"></i> Room Name:</h3>
           <h2 id="room-name"></h2>
-          <h3><i class="fas fa-users"></i> Users</h3>
-          <ul id="users"></ul>
+
+          <div>
+            <div class="add-users">
+              <h3><i class="fas fa-users"></i> Team One</h3>
+              <button class="chat-button" id="add-waiting">ADD</button>
+            </div>  
+              <ul id="team-one"></ul>
+          </div>
+
+          <div>
+            <div class="add-users">
+              <h3><i class="fas fa-users"></i> Team Two</h3>
+              <button class="chat-button" id="add-waiting">ADD</button>
+            </div>  
+              <ul id="team-two"></ul>
+          </div>
+
+          <div>
+            <div class="add-users">
+              <h3><i class="fas fa-user"></i> Referee</h3>
+              <button class="chat-button" id="add-waiting">ADD</button>
+            </div>  
+              <ul id="referee"></ul>
+          </div>
+
+          <div>
+              <div class="add-users">
+                <h3><i class="fas fa-users"></i> Waiting users</h3>
+                <button class="chat-button" id="add-waiting">ADD</button>
+              </div>  
+                <ul id="waiting-users"></ul>
+          </div>
+
         </div>
         <div class="chat-messages"></div>
       </main>
