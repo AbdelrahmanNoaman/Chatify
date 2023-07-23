@@ -1,6 +1,9 @@
 const chatForm = document.getElementById("chat-form");
 const chatMessages = document.querySelector(".chat-messages");
-
+const addTeamOne = document.getElementById("add-team-one");
+const addTeamTwo = document.getElementById("add-team-two");
+const addReferee = document.getElementById("add-referee");
+const addWaiting = document.getElementById("add-waiting");
 //Get username and room from URL
 const { username, roomId } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
@@ -11,10 +14,13 @@ p.innerHTML = `${roomId}`;
 document.getElementById("room-name").appendChild(p);
 
 const socket = io();
-const type = "WAITING";
+const waiting = "WAITING";
+const teamOne = "TEAMONE";
+const teamTwo = "TEAMTWO";
+const referee = "REFEREE";
 //join chatroom
 socket.emit("joinRoom", { username, roomId });
-socket.emit("updatePlayer", { username, roomId, type });
+socket.emit("updatePlayer", { username, roomId, waiting });
 
 // Receiving the message from the server
 socket.on("message", (message) => {
@@ -23,10 +29,8 @@ socket.on("message", (message) => {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
-socket.on("waitedUsers", (username) => {
-  console.log("ana ahu");
-  console.log(username);
-  outputNames(username, "waiting-users");
+socket.on("waitedUsers", (users) => {
+  outputNames(users, "waiting-users");
 });
 
 socket.on("teamOne", (username) => {
@@ -68,21 +72,33 @@ function outputMessage(message) {
   document.querySelector(".chat-messages").appendChild(div);
 }
 
-//Adding the message to the client side
-function outputMessage(message) {
-  const div = document.createElement("div");
-  div.classList.add("message");
-  div.innerHTML = `
-      <div class="message">
-        <p class="meta">${message.username}<span> ${message.time}</span></p>
-        <p class="text">${message.text}</p>
-      </div>`;
-  document.querySelector(".chat-messages").appendChild(div);
+//Adding the name of users in waiting names
+function outputNames(users, listName) {
+  const element = document.getElementById(listName);
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+  console.log(users);
+  for (let i = 0; i < users.length; i++) {
+    console.log(users[i].username, listName);
+    const li = document.createElement("li");
+    li.innerHTML = `${users[i].username}`;
+    document.getElementById(listName).appendChild(li);
+  }
 }
 
-//Adding the name of users in waiting names
-function outputNames(username, listName) {
-  const li = document.createElement("li");
-  li.innerHTML = `${username}`;
-  document.querySelector(listName).appendChild(li);
-}
+addTeamOne.addEventListener("submit", () => {
+  socket.emit("updatePlayer", { username, roomId, teamOne });
+});
+
+addTeamTwo.addEventListener("submit", () => {
+  socket.emit("updatePlayer", { username, roomId, teamTwo });
+});
+
+addReferee.addEventListener("submit", () => {
+  socket.emit("updatePlayer", { username, roomId, referee });
+});
+
+addWaiting.addEventListener("submit", () => {
+  socket.emit("updatePlayer", { username, roomId, waiting });
+});

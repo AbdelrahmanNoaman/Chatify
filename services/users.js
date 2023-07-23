@@ -10,10 +10,9 @@ const {
 } = require("../utils/users.js");
 const formatMessage = require("../utils/messages.js");
 
-
 //----------------Welcoming
 // Send this message to a single client
-function sayWelcome(socket) {
+async function sayWelcome(socket) {
   socket.emit(
     "message",
     formatMessage({ text: "Welcome to Chatify!" }, process.env.BOT_NAME)
@@ -22,7 +21,7 @@ function sayWelcome(socket) {
 
 //Now we need to broadcast a message to everyone detecting that someone has joined the room
 //It broadcasts the message to everyone except the one connected
-function sayJoined(socket, username, roomId) {
+async function sayJoined(socket, username, roomId) {
   socket.broadcast
     .to(roomId)
     .emit(
@@ -47,73 +46,77 @@ function sayGoodBye(io, username, roomId) {
 }
 
 //--------------Informing and updating
-function waitedUsers(socket, roomId) {
+function waitedUsers(io, roomId) {
   getWaitingUsers(roomId).then(([rows, fieldData]) => {
-    console.log(rows.length, "waited users");
-    for (let i = 0; i < rows.length; i++) {
-      socket.to(rows[i].room_id).emit("waitedUsers", rows[i].username);
+    if (rows[0] !== undefined) {
+      io.to(rows[0].room_id).emit("waitedUsers", rows);
+      console.log("waiting users are " + rows.length);
     }
   });
 }
 
-function teamOneUsers(socket, roomId) {
+function teamOneUsers(io, roomId) {
   getTeamOneUsers(roomId).then(([rows, fieldData]) => {
-    console.log(rows.length, "TEAM ONE");
-    for (let i = 0; i < rows.length; i++) {
-      socket.to(rows[i].room_id).emit("teamOne", rows[i].username);
-    }
+    
+    console.log("one users are " + rows.length);
+    if (rows[0] !== undefined) io.to(rows[0].room_id).emit("teamOne", rows);
   });
 }
 
-function teamTwoUsers(socket, roomId) {
+function teamTwoUsers(io, roomId) {
   getTeamTwoUsers(roomId).then(([rows, fieldData]) => {
-    console.log(rows.length, "TEAM TWO");
-    for (let i = 0; i < rows.length; i++) {
-      socket.to(rows[i].room_id).emit("teamTwo", rows[i].username);
-    }
+    
+    console.log("two users are " + rows.length);
+    if (rows[0] !== undefined) io.to(rows[0].room_id).emit("teamTwo", rows);
   });
 }
 
-function refereeUser(socket, roomId) {
+function refereeUser(io, roomId) {
   getReferee(roomId).then(([rows, fieldData]) => {
-    console.log(rows.length, "REFEREE");
-
-    for (let i = 0; i < rows.length; i++) {
-      socket.to(rows[i].room_id).emit("referee", rows[i].username);
-    }
+    
+    console.log("ref users are " + rows.length);
+    if (rows[0] !== undefined) io.to(rows[0].room_id).emit("referee", rows);
   });
 }
 
-function informUsers(socket, roomId) {
-  waitedUsers(socket, roomId);
-  teamOneUsers(socket, roomId);
-  teamTwoUsers(socket, roomId);
-  refereeUser(socket, roomId);
+async function informUsers(io, roomId) {
+  await waitedUsers(io, roomId);
+  await teamOneUsers(io, roomId);
+  await teamTwoUsers(io, roomId);
+  await refereeUser(io, roomId);
 }
-
-
 
 //--------------- Main functions
 
-function welcomeUser(userObject, socket) {
-  const user = userJoin(socket.id, userObject.username, userObject.roomId);
+async function welcomeUser(userObject, socket) {
+  const user = await userJoin(
+    socket.id,
+    userObject.username,
+    userObject.roomId
+  );
   socket.join(user.roomId);
-  sayWelcome(socket, process.env.BOT_NAME);
-  sayJoined(socket, user.username, user.roomId);
-  informUsers(socket, user.roomId);
+  await sayWelcome(socket, process.env.BOT_NAME);
+  await sayJoined(socket, user.username, user.roomId);
 }
 
 function leaveUser(io, socket) {
-  leaveChat(socket.id).then(([rows, fieldData]) => {
-    sayGoodBye(io, rows[0].username, rows[0].room_id);
-    informUsers(socket, rows[0].room_id);
-  });
+  const user = leaveChat(socket.id);
+  if(user===undefined){
+    console.log(`User isn't found`)
+    return;
+  }
+  sayGoodBye(io, user.username, user.room_id);
+  informUsers(socket, user.room_id);
 }
 
-function updateUserStatus(socket, username, roomId, type) {
-  updateUser(username, roomId, type).then(() => {
-    console.log("tb eh");
-    informUsers(socket, roomId);
+function updateUserStatus(io, username, roomId, type) {
+  console.log(type);
+  updateUser(username, roomId, type).then((done) => {
+    console.log(done);
+    if(!done){
+      return;
+    }
+    informUsers(io, roomId);
   });
 }
 

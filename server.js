@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("updatePlayer",({username,roomId,type})=>{
-    updateUserStatus(socket,username,roomId,type);
+    updateUserStatus(io,username,roomId,type);
   })
 
   // Getting the chat message
