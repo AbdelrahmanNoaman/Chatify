@@ -14,13 +14,13 @@ p.innerHTML = `${roomId}`;
 document.getElementById("room-name").appendChild(p);
 
 const socket = io();
-const waiting = "WAITING";
-const teamOne = "TEAMONE";
-const teamTwo = "TEAMTWO";
-const referee = "REFEREE";
 //join chatroom
 socket.emit("joinRoom", { username, roomId });
-socket.emit("updatePlayer", { username, roomId, waiting });
+socket.emit("updatePlayer", {
+  username: username,
+  roomId: roomId,
+  type: "WAITING",
+});
 
 // Receiving the message from the server
 socket.on("message", (message) => {
@@ -44,6 +44,7 @@ socket.on("teamTwo", (username) => {
 socket.on("referee", (username) => {
   outputNames(username, "referee");
 });
+
 
 //Adding a message
 document.addEventListener("submit", (e) => {
@@ -78,27 +79,41 @@ function outputNames(users, listName) {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
-  console.log(users);
   for (let i = 0; i < users.length; i++) {
-    console.log(users[i].username, listName);
     const li = document.createElement("li");
     li.innerHTML = `${users[i].username}`;
     document.getElementById(listName).appendChild(li);
   }
 }
 
-addTeamOne.addEventListener("submit", () => {
-  socket.emit("updatePlayer", { username, roomId, teamOne });
+addTeamOne.addEventListener("click", function() {
+  socket.emit("updatePlayer", {
+    username: username,
+    roomId: roomId,
+    type: "TEAMONE",
+  });
 });
 
-addTeamTwo.addEventListener("submit", () => {
-  socket.emit("updatePlayer", { username, roomId, teamTwo });
+addTeamTwo.addEventListener("click", function() {
+  socket.emit("updatePlayer", {
+    username: username,
+    roomId: roomId,
+    type: "TEAMTWO",
+  });
 });
 
-addReferee.addEventListener("submit", () => {
-  socket.emit("updatePlayer", { username, roomId, referee });
+addReferee.addEventListener("click", function() {
+  socket.emit("updatePlayer", {
+    username: username,
+    roomId: roomId,
+    type: "REFEREE",
+  });
 });
 
-addWaiting.addEventListener("submit", () => {
-  socket.emit("updatePlayer", { username, roomId, waiting });
+addWaiting.addEventListener("click", function() {
+  socket.emit("updatePlayer", {
+    username: username,
+    roomId: roomId,
+    type: "WAITING",
+  });
 });

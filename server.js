@@ -10,7 +10,11 @@ const {
   getRoomUsers,
   leaveChat,
 } = require("./utils/users.js");
-const { welcomeUser, leaveUser,updateUserStatus } = require("./services/users.js");
+const {
+  welcomeUser,
+  leaveUser,
+  updateUserStatus,
+} = require("./services/users.js");
 
 dotenv.config();
 
@@ -21,7 +25,6 @@ const io = require("socket.io")(server);
 app.use(express.static(path.join(__dirname, "public")));
 
 io.on("connection", (socket) => {
-
   socket.on("joinRoom", ({ username, roomId }) => {
     welcomeUser({ username, roomId }, socket);
   });
@@ -30,13 +33,13 @@ io.on("connection", (socket) => {
     leaveUser(io, socket);
   });
 
-  socket.on("updatePlayer",({username,roomId,type})=>{
-    updateUserStatus(io,username,roomId,type);
-  })
+  socket.on("updatePlayer", (user) => {
+    updateUserStatus(io, user.username, user.roomId, user.type);
+  });
 
   // Getting the chat message
   socket.on("chatMessage", (msg) => {
-    io.emit("message", formatMessage(msg));
+    io.to(user.roomId).emit("message", formatMessage(msg));
   });
 });
 

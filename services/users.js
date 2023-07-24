@@ -9,6 +9,7 @@ const {
   updateUser,
 } = require("../utils/users.js");
 const formatMessage = require("../utils/messages.js");
+const db = require("../utils/database.js");
 
 //----------------Welcoming
 // Send this message to a single client
@@ -48,34 +49,25 @@ function sayGoodBye(io, username, roomId) {
 //--------------Informing and updating
 function waitedUsers(io, roomId) {
   getWaitingUsers(roomId).then(([rows, fieldData]) => {
-    if (rows[0] !== undefined) {
-      io.to(rows[0].room_id).emit("waitedUsers", rows);
-      console.log("waiting users are " + rows.length);
-    }
+    io.to(roomId).emit("waitedUsers", rows);
   });
 }
 
 function teamOneUsers(io, roomId) {
   getTeamOneUsers(roomId).then(([rows, fieldData]) => {
-    
-    console.log("one users are " + rows.length);
-    if (rows[0] !== undefined) io.to(rows[0].room_id).emit("teamOne", rows);
+    io.to(roomId).emit("teamOne", rows);
   });
 }
 
 function teamTwoUsers(io, roomId) {
   getTeamTwoUsers(roomId).then(([rows, fieldData]) => {
-    
-    console.log("two users are " + rows.length);
-    if (rows[0] !== undefined) io.to(rows[0].room_id).emit("teamTwo", rows);
+    io.to(roomId).emit("teamTwo", rows);
   });
 }
 
 function refereeUser(io, roomId) {
   getReferee(roomId).then(([rows, fieldData]) => {
-    
-    console.log("ref users are " + rows.length);
-    if (rows[0] !== undefined) io.to(rows[0].room_id).emit("referee", rows);
+    io.to(roomId).emit("referee", rows);
   });
 }
 
@@ -99,21 +91,25 @@ async function welcomeUser(userObject, socket) {
   await sayJoined(socket, user.username, user.roomId);
 }
 
-function leaveUser(io, socket) {
-  const user = leaveChat(socket.id);
-  if(user===undefined){
-    console.log(`User isn't found`)
-    return;
-  }
-  sayGoodBye(io, user.username, user.room_id);
-  informUsers(socket, user.room_id);
+async function leaveUser(io, socket) {
+  getCurrUser(socket.id).then(([rows, fieldList]) => {
+    if (rows[0] === undefined) {
+      console.log(`User isn't found`);
+      return;
+    }
+    sayGoodBye(io, rows[0].username, rows[0].room_id);
+    db.execute(`DELETE FROM USERS WHERE username='${rows[0].username}' AND room_id='${rows[0].room_id}'`).then((status) => {
+      if (status.affectedRows===0) {
+        return;
+      }
+      informUsers(io, rows[0].room_id);
+    });
+  });
 }
 
 function updateUserStatus(io, username, roomId, type) {
-  console.log(type);
   updateUser(username, roomId, type).then((done) => {
-    console.log(done);
-    if(!done){
+    if (!done) {
       return;
     }
     informUsers(io, roomId);
