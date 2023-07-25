@@ -4,9 +4,6 @@ const addTeamOne = document.getElementById("add-team-one");
 const addTeamTwo = document.getElementById("add-team-two");
 const addReferee = document.getElementById("add-referee");
 const addWaiting = document.getElementById("add-waiting");
-
-const { outputMessage, outputNames } = require("./utils.js");
-
 //Get username and room from URL
 const { username, roomId } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
@@ -106,3 +103,31 @@ document.addEventListener("submit", (e) => {
   e.target.elements.msg.value = "";
   e.target.elements.msg.focus();
 });
+
+// --------------------------------------------------------------------------------------
+// Helper Functions
+
+// Adding the message to the client side
+function outputMessage(message) {
+  const div = document.createElement("div");
+  div.classList.add("message");
+  div.innerHTML = `
+      <div class="message">
+        <p class="meta">${message.username}<span> ${message.time}</span></p>
+        <p class="text">${message.text}</p>
+      </div>`;
+  document.querySelector(".chat-messages").appendChild(div);
+}
+
+//Adding the name of users in waiting names
+function outputNames(users, listName) {
+  const element = document.getElementById(listName);
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+  for (let i = 0; i < users.length; i++) {
+    const li = document.createElement("li");
+    li.innerHTML = `${users[i].username}`;
+    document.getElementById(listName).appendChild(li);
+  }
+}
