@@ -20,7 +20,6 @@ Chatify is a real-time chat application designed for gaming enthusiasts. The app
 - **Waiting Players:** For users not actively participating in the current game, there is a designated area for waiting players, encouraging them to join the action at any time.
 - **Real-Time Chat:** Experience real-time communication with Socket.io, enabling instant message updates between players.
 - **Game Watching:** Chatify offers a unique feature that allows users to spectate ongoing games in real-time. This is perfect for learning, strategizing, or simply enjoying the gaming experience.
-- *Add any other notable features specific to your application.*
 
 ## 🔧 Dependencies
 Chatify is built using the following technologies:
