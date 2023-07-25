@@ -35,9 +35,16 @@ Chatify is built using the following technologies:
 
 ## 👥 Contributors
 
-![Abdelrahman Noaman](https://avatars.githubusercontent.com/u/76150639?s=400&u=4f3894f139c1383fadc15efdbed6207e936a2a20&v=4)
-
-- [Abdelrahman Noaman](https://github.com/AbdelrahmanNoaman) - Sole contributor to the project.
+<table>
+  <tr>
+    <td align="center">
+    <a href="https://github.com/AbdelrahmanNoaman" target="_black">
+    <img src="https://avatars.githubusercontent.com/u/76150639?s=400&u=4f3894f139c1383fadc15efdbed6207e936a2a20&v=4"   width="150px;" alt="Abdelrahman Noaman"/>
+    <br />
+    <sub><b>Abdelrahman Noaman</b></sub></a>
+    </td>
+  </tr>
+ </table>
 
 ## 📄 License
 
