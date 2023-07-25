@@ -1,5 +1,4 @@
 # Chatify - Real-Time Chat Application for Gaming
-<img src="https://github.com/AbdelrahmanNoaman/Chatify/assets/76150639/605d5777-a830-4906-bcb1-6a59b7c3d540" alt="Chatify"/>
 
 ## Table of Contents
 
