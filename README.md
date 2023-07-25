@@ -3,26 +3,26 @@
 
 ## Table of Contents
 
-- [About](#about)
-- [Features](#features)
-- [Dependencies](#dependencies)
-- [Contributors](#contributors)
-- [License](#license)
+- 📜 [About](#about)
+- 🎯 [Features](#features)
+- 🔧 [Dependencies](#dependencies)
+- 👥 [Contributors](#contributors)
+- 📄 [License](#license)
 
-## About
+## 📜 About
 
 Chatify is a real-time chat application designed for gaming enthusiasts. The application allows players to communicate and collaborate during games. Whether you're playing online multiplayer games, board games, or any other interactive gaming experience, Chatify enhances your gaming sessions by providing seamless communication with your teammates and other players.
 
-## Features
+## 🎯 Features
 
 - **Create and Join Rooms:** Users can create their own chat rooms or join existing ones to start communicating instantly.
 - **Team Assignments:** While in a room, players can be assigned to Team One, Team Two, or be designated as a Referee. This allows for organized team-based gaming sessions.
 - **Waiting Players:** For users not actively participating in the current game, there is a designated area for waiting players, encouraging them to join the action at any time.
 - **Real-Time Chat:** Experience real-time communication with Socket.io, enabling instant message updates between players.
 - **Game Watching:** Chatify offers a unique feature that allows users to spectate ongoing games in real-time. This is perfect for learning, strategizing, or simply enjoying the gaming experience.
+- *Add any other notable features specific to your application.*
 
-## Dependencies
-
+## 🔧 Dependencies
 Chatify is built using the following technologies:
 
 - **MYSQL**: A popular open-source relational database management system used for storing and managing game and user data efficiently.
@@ -33,11 +33,15 @@ Chatify is built using the following technologies:
 
 - **Moment.js**: A JavaScript library used for parsing, validating, manipulating, and formatting dates and times in a user-friendly way.
 
-## Contributors
+## 👥 Contributors
+
+![Abdelrahman Noaman](https://avatars.githubusercontent.com/u/76150639?s=400&u=4f3894f139c1383fadc15efdbed6207e936a2a20&v=4)
 
 - [Abdelrahman Noaman](https://github.com/AbdelrahmanNoaman) - Sole contributor to the project.
-  
-## License
+
+## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+
 
