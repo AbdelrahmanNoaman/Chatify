@@ -1,7 +1,6 @@
 const {
   getCurrUser,
   userJoin,
-  leaveChat,
   getWaitingUsers,
   getTeamOneUsers,
   getReferee,

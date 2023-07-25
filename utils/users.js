@@ -64,7 +64,6 @@ async function updateUser(username, roomId, type) {
 module.exports = {
   userJoin,
   getCurrUser,
-  leaveChat,
   getReferee,
   getTeamOneUsers,
   getTeamTwoUsers,

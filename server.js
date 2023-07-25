@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
 
   // Getting the chat message
   socket.on("chatMessage", (msg) => {
-    io.to(user.roomId).emit("message", formatMessage(msg));
+    io.to(msg.roomId).emit("message", formatMessage(msg));
   });
 });
 
