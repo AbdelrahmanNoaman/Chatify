@@ -1,47 +1,33 @@
-const db = require("../utils/database.js");
+const User = require("../Models/Users.js");
 // join a user to chat
 function userJoin(socket_id, username, roomId) {
-  const user = { socket_id, username, roomId };
-  db.execute(
-    `INSERT INTO users
-     VALUES ( '${user.username}' , '${user.roomId}' , 'WAITING' , '${user.socket_id}' )`
-  );
-  return user;
+  const user = new User(username, roomId, socket_id);
+  return user.CreateUser();
 }
 
 // get current user
 function getCurrUser(socket_id) {
-  return db.execute(`SELECT * FROM USERS WHERE socket_id = '${socket_id}'`);
+  return User.getUserBySocketId(socket_id);
 }
 
 function getWaitingUsers(roomId) {
-  return db.execute(
-    `SELECT * FROM USERS WHERE room_id='${roomId}' AND TYPE='WAITING'`
-  );
+  return User.getSpecificUsers(roomId, "WAITING");
 }
 
 function getTeamOneUsers(roomId) {
-  return db.execute(
-    `SELECT * FROM USERS WHERE room_id='${roomId}' AND TYPE='TEAMONE'`
-  );
+  return User.getSpecificUsers(roomId, "TEAMONE");
 }
 
 function getTeamTwoUsers(roomId) {
-  return db.execute(
-    `SELECT * FROM USERS WHERE room_id='${roomId}' AND TYPE='TEAMTWO'`
-  );
+  return User.getSpecificUsers(roomId, "TEAMTWO");
 }
 
 function getReferee(roomId) {
-  return db.execute(
-    `SELECT * FROM USERS WHERE room_id='${roomId}' AND TYPE='REFEREE'`
-  );
+  return User.getSpecificUsers(roomId, "REFEREE");
 }
 
 async function check_count(roomId, type) {
-  let cnt = await db.execute(
-    `SELECT COUNT(*) as cnt FROM USERS WHERE room_id='${roomId}' and type ='${type}'`
-  );
+  let cnt = await User.getCnt(roomId, type);
   cnt = cnt[0][0]["cnt"];
   if (type === "REFEREE" && cnt === 1) {
     return false;
@@ -54,9 +40,7 @@ async function check_count(roomId, type) {
 async function updateUser(username, roomId, type) {
   const valid = await check_count(roomId, type);
   if (valid) {
-    return db.execute(
-      `UPDATE USERS SET type='${type}' WHERE username= '${username}' AND room_id='${roomId}'`
-    );
+    return User.updateUserType(username, roomId, type);
   }
   return false;
 }

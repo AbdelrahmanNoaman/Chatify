@@ -85,6 +85,7 @@ async function welcomeUser(userObject, socket) {
     userObject.username,
     userObject.roomId
   );
+  console.log(user);
   socket.join(user.roomId);
   await sayWelcome(socket, process.env.BOT_NAME);
   await sayJoined(socket, user.username, user.roomId);
@@ -97,8 +98,10 @@ async function leaveUser(io, socket) {
       return;
     }
     sayGoodBye(io, rows[0].username, rows[0].room_id);
-    db.execute(`DELETE FROM USERS WHERE username='${rows[0].username}' AND room_id='${rows[0].room_id}'`).then((status) => {
-      if (status.affectedRows===0) {
+    db.execute(
+      `DELETE FROM USERS WHERE username='${rows[0].username}' AND room_id='${rows[0].room_id}'`
+    ).then((status) => {
+      if (status.affectedRows === 0) {
         return;
       }
       informUsers(io, rows[0].room_id);

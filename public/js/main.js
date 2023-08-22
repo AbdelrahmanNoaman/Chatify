@@ -65,6 +65,7 @@ addTeamOne.addEventListener("click", function () {
 });
 // Event of transforming a player from any type to team two
 addTeamTwo.addEventListener("click", function () {
+  console.log("add team two");
   socket.emit("updatePlayer", {
     username: username,
     roomId: roomId,
@@ -73,6 +74,7 @@ addTeamTwo.addEventListener("click", function () {
 });
 // Event of transforming a player from any type to referee
 addReferee.addEventListener("click", function () {
+  console.log("add referee");
   socket.emit("updatePlayer", {
     username: username,
     roomId: roomId,
